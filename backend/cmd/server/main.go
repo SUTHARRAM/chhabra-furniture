@@ -15,6 +15,7 @@ func main() {
 	_ = godotenv.Load()
 	cfg := config.Load()
 	client := db.MustConnect(cfg)
+	log.Printf("CLIENT : ", client)
 	defer client.Disconnect(db.Ctx)
 
 	db.MustEnsureIndexes(cfg, client)

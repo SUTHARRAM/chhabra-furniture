@@ -13,13 +13,21 @@ export type BillFormValues = {
   notes?: string
 }
 
+// helper: create a value suitable for <input type="datetime-local">
+function toDatetimeLocalValue(d: Date) {
+  const off = d.getTimezoneOffset()
+  const local = new Date(d.getTime() - off * 60000)
+  return local.toISOString().slice(0, 16) // "YYYY-MM-DDTHH:mm"
+}
+
 export default function BillForm({ onSubmit, defaults }:{
   onSubmit: (data: BillFormValues)=>void,
   defaults?: Partial<BillFormValues>
 }) {
   const { register, control, handleSubmit, watch, setValue } = useForm<BillFormValues>({
-    defaultValues: defaults as any ?? {
-      bill_date: new Date().toISOString(),
+    defaultValues: (defaults as any) ?? {
+      // ✅ make the input happy (local, no seconds)
+      bill_date: toDatetimeLocalValue(new Date()),
       from: { name: 'Chhabra Furniture', address: 'Address here' },
       to: { name: '', address: '' },
       items: [{ description: '', rate: 0, quantity: 1 }],
@@ -32,8 +40,8 @@ export default function BillForm({ onSubmit, defaults }:{
   const { fields, append, remove } = useFieldArray({ control, name: 'items' })
   const items = watch('items')
   const subtotal = items.reduce((s, it)=> s + (Number(it.rate||0) * Number(it.quantity||0)), 0)
+
   useEffect(()=> {
-    // simple auto-calc GST 18 if label matches; else leave
     if (watch('tax.label')?.includes('18')) setValue('tax.amount', +(subtotal*0.18).toFixed(2))
   }, [subtotal, watch('tax.label')])
 
@@ -43,7 +51,13 @@ export default function BillForm({ onSubmit, defaults }:{
     <form onSubmit={handleSubmit(onSubmit)} className="billform">
       <div className="row">
         <label>Bill Date</label>
-        <input type="datetime-local" {...register('bill_date')} />
+        {/* ✅ convert the submitted value to RFC3339 so Go's time.Time can parse it */}
+        <input
+          type="datetime-local"
+          {...register('bill_date', {
+            setValueAs: (v: string) => v ? new Date(v).toISOString() : ''
+          })}
+        />
         <label>Language</label>
         <select {...register('language')}>
           <option value="en">English</option>

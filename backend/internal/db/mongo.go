@@ -48,6 +48,7 @@ func MustEnsureIndexes(cfg config.Config, client *mongo.Client) {
 }
 
 func SeedAdmin(cfg config.Config, client *mongo.Client) {
+	log.Printf("HELLOW SEED ADMIN : ", cfg)
 	if cfg.SeedAdminEmail == "" || cfg.SeedAdminPass == "" {
 		log.Printf("Seeed admin failed")
 		return
