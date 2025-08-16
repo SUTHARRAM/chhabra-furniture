@@ -1,0 +1,16 @@
+{
+  "invoice": "Invoice",
+  "from": "From",
+  "to": "To",
+  "date": "Bill Date",
+  "description": "Product Description",
+  "rate": "Rate",
+  "qty": "Quantity",
+  "price": "Price",
+  "subtotal": "Subtotal",
+  "tax": "Tax",
+  "discount": "Discount",
+  "total": "Total",
+  "download_pdf": "Download PDF",
+  "thank_you": "Thank you for your business!"
+}

@@ -11,7 +11,8 @@ import (
 )
 
 func main() {
-	_ = godotenv.Load("/home/ram/mycode/chhabra-furniture/backend/.env") // in container .env is copied alongside
+	//_ = godotenv.Load("/home/ram/mycode/chhabra-furniture/backend/.env") // in container .env is copied alongside
+	_ = godotenv.Load()
 	cfg := config.Load()
 	client := db.MustConnect(cfg)
 	defer client.Disconnect(db.Ctx)

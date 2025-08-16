@@ -1,0 +1,15 @@
+body { font-family: system-ui, Arial, sans-serif; margin: 0; }
+.container { max-width: 1000px; margin: 0 auto; padding: 16px; }
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:12px 0; }
+.topbar nav a, .topbar nav button { margin-right:12px; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.itemrow { display:grid; grid-template-columns: 4fr 1fr 1fr 1fr auto; gap:8px; align-items:center; }
+.row { display:grid; grid-template-columns: repeat(6, 1fr); gap:8px; }
+.totals { margin: 12px 0; font-weight: bold; }
+.actions { margin: 12px 0; }
+table { width: 100%; border-collapse: collapse; }
+td, th { border: 1px solid #ddd; padding: 8px; }
+.auth, .public { max-width: 600px; margin: 40px auto; }
+.logo-corner { position: fixed; right: 8px; top: 8px; opacity: 0.7; }
+.logo-corner img { width: 48px; height: 48px; }
+.share a, .share button { margin-right: 12px; }

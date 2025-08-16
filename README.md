@@ -1,3 +1,25 @@
+# Chhabra Billing (Go + React + Mongo + MinIO)
+
+## Run
+1. Copy repo files.
+2. `docker compose up --build`
+3. Frontend: http://localhost:5173  
+   Backend:  http://localhost:8080/api/v1
+
+Login with:
+- **Email:** admin@chhabrafurniture.com
+- **Password:** Admin@123
+
+## Typical Flow
+- Login → Create a bill → Open the bill → Generate PDF → Share public link or WhatsApp.
+
+## Notes
+- MinIO Console: http://localhost:9001 (cf_minio / cf_minio_secret)
+- PDFs stored in bucket `invoices`.
+- Change `.env` secrets for production.
+
+
+```
 chhabra-billing/
 ├─ docker-compose.yml
 ├─ README.md
@@ -45,3 +67,4 @@ chhabra-billing/
       ├─ i18n/locales/en/invoice.json
       ├─ i18n/locales/hi/invoice.json
       └─ styles.css
+```
