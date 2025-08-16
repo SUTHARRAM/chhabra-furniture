@@ -23,7 +23,7 @@ type Config struct {
 func Load() Config {
 	return Config{
 		Port:           get("PORT", "8080"),
-		MongoURI:       get("MONGO_URI", "mongodb://localhost:27017"),
+		MongoURI:       get("MONGO_URI", "mongodb://mongo:27017"),
 		MongoDB:        get("MONGO_DB", "chhabra"),
 		JWTSecret:      get("JWT_SECRET", "change_me"),
 		JWTExpireHours: atoi(get("JWT_EXPIRE_HOURS", "12")),
@@ -32,8 +32,8 @@ func Load() Config {
 		MinIOSecretKey: get("MINIO_SECRET_KEY", ""),
 		MinIOBucket:    get("MINIO_BUCKET", "invoices"),
 		MinIOUseSSL:    get("MINIO_USE_SSL", "false") == "true",
-		SeedAdminEmail: get("SEED_ADMIN_EMAIL", ""),
-		SeedAdminPass:  get("SEED_ADMIN_PASSWORD", ""),
+		SeedAdminEmail: get("SEED_ADMIN_EMAIL", "admin@chhabrafurniture.com"),
+		SeedAdminPass:  get("SEED_ADMIN_PASSWORD", "Admin@123"),
 	}
 }
 
