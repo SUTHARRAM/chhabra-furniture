@@ -1,0 +1,163 @@
+openapi: 3.0.0
+info:
+  description: <b>It provides the employee details
+  version: 1.0.0
+  title: emp-details
+
+   
+servers:
+  - url: https://dev-merp.intermesh.net/
+    description: Dev Server
+  - url: https://stg-merp.intermesh.net/
+    description: Stage Server
+   
+paths:
+  /api/emp/v1/emp-details:
+    get:
+      tags:
+        - API Details and Responses
+      description: ""
+      security:
+        - bearerAuth: []
+      parameters:
+      - in: query
+        name: empid  
+        required: true
+        description: Employee id
+        schema:  
+          type: integer
+          format: int64
+          example: 108758
+      - in: query
+        name: AK
+        required: true
+        description: Authentication Token
+        schema:  
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDg3ODUiLCJleHAiOjE3NTg1MjQ5NzAsImlhdCI6MTc1ODQzODU3MCwiaXNzIjoiRU1QTE9ZRUUifQ.pTaq920Kdna8AhwROS_ga6V1Fwj7zw8wgLH0Y0AlH_k
+       
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                  message:
+                    type: string
+              examples:
+                Success:
+                    value:
+                     status: "200"
+                     data: [
+                       {
+CAMPAIGN_DID: '',
+EMAIL: himanshi.gupta01@indiamart.com,
+EMPLOYEENAME: Himanshi Gupta,
+FK_IIL_DESIGNATION_ID: 117,
+FK_IIL_VERTICAL_ID: 40,
+MOBILE: '7217645227',
+},
+                     ]
+                     message: Data fetch Successfully      
+
+        400:
+          description: MISSING MANDATORY PARAMS
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                  message:
+                    type: string
+              examples:
+               Missing Mandatory Params:
+                value:
+                 status: "400"
+                 data: []
+                 message: Missing Mandatory params!
+               Invalid Params Datatype:
+                value:
+                 status: "400"
+                 message: Invalid params datatype!
+               
+     
+        401:
+          description: AK is missing / Expired / AK of other Emp
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                  message:
+                    type: string
+              examples:
+               WRONG AK , AK of other EMP , Expired:
+                value:
+                 status: "401"
+                 data: []
+                 message: Invalid AK!
+               AK Not PASSED IN Header:
+                value:
+                 status: "401"
+               
+                 message: Authorization header missing
+               
+               Bearer Missing:
+                value:
+                 status: "401"
+               
+                 message: Authorization header missing Bearer
+               
+                 
+        206:
+          description: No Data Present for Selected Empid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  data:
+                    type: object
+                  message:
+                    type: string
+              examples:
+               Data Fetch Error:
+                value:
+                 status: "204"
+                 data: []
+                 message: No data available !!
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    SampleResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          format: string
+        data:
+          type: object
+        message:
+          type: string

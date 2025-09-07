@@ -1,0 +1,226 @@
+openapi: 3.0.0
+info:
+  description: This is a read service which is used to get nach related details for gluser.This service is used in 9696 screen.<br>
+    This service is also used on weberp usercontrol/primarymobileverified.aspx page.
+ 
+  version: 1.0.0
+  title: getnachdetails API
+    
+servers:
+  - url: https://stg-merp.intermesh.net/
+    description: Stage Server
+  - url: https://dev-merp.intermesh.net/
+    description: Dev Server
+    
+paths:
+  /index.php/pns/NachDetails/getnachdetails:
+    get:
+      tags:
+        API Details and Responses: 
+      description: <br>
+        We are fetching nach related details from main DB. <br>No third party API is called in this service.
+      parameters:
+      - in: query
+        name: AK
+        required: true
+        description: Authorisation Key.
+        schema:
+          type: string  
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTQ2OTciLCJleHAiOjE3NTg1MjgwNTAsImlhdCI6MTc1ODQ0MTY1MCwiaXNzIjoiRU1QTE9ZRUUifQ.GdIm-wnuSsLNEccHQ13qxvJKPw8CS1fmmLj7RM9UFjw  
+      - in: query
+        name: empid
+        required: true
+        description: Employee ID for Authentication purpose.
+        schema:
+          type: integer
+          format: int64
+          example: 114697
+          
+      - in: query
+        name: glid
+        required: true
+        description: GlUser Id
+        schema:  
+          type: integer
+          format: int64
+          example: 155825698
+          
+      - in: query
+        name: modid
+        required: true
+        description: module name
+        schema:  
+          type: string
+          format: string
+          example: 9696
+      - in: query
+        name: screen_name
+        required: false
+        description: screen name
+        schema:  
+          type: string
+          format: string
+          example: userverified
+      responses:
+        "200":
+          description: Success Response 
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    format: int64
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                      - $ref: '#/components/schemas/Value1'
+                  message:
+                    type: string
+                    format: string
+                    example: "success"
+        "200 ":
+          description: Success Response when screen_name = userverified
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    format: int64
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      oneOf:
+                      - $ref: '#/components/schemas/Value2'
+                  message:
+                    type: string
+                    format: string
+                    example: "success"
+        "204":
+          description: Missing mandatory parameters
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  status:
+                    type: string
+                    format: string
+                    example: 204
+                  data:
+                    example: []
+                  message:
+                    type: string
+                    format: string
+                    example: "Invalid Request"
+                    
+        "401":
+          description: Token expired
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  status:
+                    type: string
+                    format: string
+                    example: 401
+                  data:
+                    example: []
+                  message:
+                    type: string
+                    format: string
+                    example: "Token Expired"
+                  
+                    
+        "402":
+          description: Wrong AK / Incorrect empid
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ResponseOne402'
+                  - $ref: '#/components/schemas/ResponseTwo402'
+              examples:
+                Wrong AK:
+                  value: {
+                    status: 402,
+                    data: [],
+                    message: "Authentication Failed"
+                    }
+                Incorrect empid:
+                  value: {
+                    status: 402,
+                    data: [],
+                    message: "You are not authorized to access this page."
+                  }
+                    
+                    
+components:
+  schemas:
+    Value1:
+      type: object
+      properties:
+        S_NAME:
+          type: string
+          format: string
+          example: "MDC"
+        DISP_TXT:
+          type: string
+          format: string
+          example: "A - End Dt. 25-Sep-2027"
+        AR_ECS_IS_ACTIVE:
+          type: string
+          format: string
+          example: "0"
+    Value2:
+      type: object
+      properties:
+        S_NAME:
+          type: string
+          format: string
+          example: "MDC"
+        DISP_TXT:
+          type: string
+          format: string
+          example: "Stopped Deal Converted"
+        AR_ECS_ENTERED_DATE:
+          type: string
+          format: string
+          example: "18-12-2013 12:41:46 +0000"
+        AR_ECS_ID:
+          type: string
+          format: string
+          example: "1714"
+        PROFORMA_ID:
+          type: string
+          format: string
+          example: "541206"
+          
+    ResponseOne402:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int64
+          example: 401
+        data:
+          type: object
+          example: null
+        message:
+          type: string
+          format: string
+          example: "Invalid AK!"
+    ResponseTwo402:
+      type: object
+      properties:
+        error:
+          type: string
+          format: string
+          example: "Authorization header missing"

@@ -1,0 +1,6 @@
+# Curl commands for empd API testing
+# Base URL: https://dev-merp.intermesh.net/
+
+curl -X GET "https://merp.intermesh.net/index.php/User/Apiemployeedetails?empid=114697&AK=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTQ2OTciLCJleHAiOjE3NTg1MjgwNTAsImlhdCI6MTc1ODQ0MTY1MCwiaXNzIjoiRU1QTE9ZRUUifQ.GdIm-wnuSsLNEccHQ13qxvJKPw8CS1fmmLj7RM9UFjw" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/index.php/User/Apiemployeedetails?empid=invalid_id&AK=invalid_token" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/index.php/User/Apiemployeedetails?empid=invalid_id&AK=invalid_token" -H "Content-Type: application/json"

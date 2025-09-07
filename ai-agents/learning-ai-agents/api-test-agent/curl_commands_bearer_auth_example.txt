@@ -1,0 +1,19 @@
+# Curl commands for bearer_auth_example API testing
+# Authentication method: bearer_token
+# Base URL: https://api.example.com/v1
+
+# Curl Commands with Bearer Token Support
+# Base URL: https://merp.intermesh.net
+
+# Set your Bearer token
+export BEARER_TOKEN='your_token_here'
+
+# GET /users/profile
+curl -X GET "https://merp.intermesh.net/users/profile" \
+  -H "Authorization: Bearer $BEARER_TOKEN" \
+  -H "Content-Type: application/json"
+
+# PUT /users/settings
+curl -X PUT "https://merp.intermesh.net/users/settings" \
+  -H "Authorization: Bearer $BEARER_TOKEN" \
+  -H "Content-Type: application/json"

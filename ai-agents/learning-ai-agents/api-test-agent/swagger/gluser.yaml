@@ -1,0 +1,590 @@
+openapi: 3.0.0
+info:
+  description: This service is used to fetch the gliddetails for a particular glid when used via the NSD MERP App.<br>When used from the Weberp-DHL Screen it fetches the data of the glid assigned to the mentioned employee.<br><a href="https://docs.google.com/document/d/1Sqq2cx9627wE8Py39Wwu94WhCgo7QfFftB1JDVUQlwM/edit?usp=sharing">SRS Document</a>
+
+  version: 1.0.0
+  title: GlidDetails Service
+
+    
+servers:
+  - url: https://merp.intermesh.net/
+    description: Live Server
+  - url: https://dev-merp.intermesh.net/
+    description: Dev Server
+    
+paths:
+  /index.php/Userlist/GlidDetails/:
+    get:
+      tags:
+        - API details and Responses
+      parameters:
+        - in: query
+          name: empid  
+          required: true
+          description: Employee ID
+          schema:  
+            type: integer
+            format: int64
+            example: 71200
+        - in: query
+          name: AK  
+          required: true
+          description: Auth Token
+          schema:  
+            type: string
+            format: string
+            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMjc4OSIsImV4cCI6MTc1ODUwNjQwNCwiaWF0IjoxNzU4NDIwMDA0LCJpc3MiOiJFTVBMT1lFRSJ9.4DesUFvAsteMjx6VEN0W4BOMozxEUWvhH8ovn31lYVs"
+        - in: query
+          name: glid  
+          required: false
+          description: Glid
+          schema:  
+            type: integer
+            format: int64
+            example: 236
+        - in: query
+          name: modid  
+          required: false
+          description: Modid
+          schema:  
+            type: string
+            format: string
+            example: MERP
+        - in: query
+          name: display  
+          required: false
+          description: Display the various modular responses for debugging purposes
+          schema:  
+            type: integer
+            format: int64
+            example: -2
+        
+      responses:
+        "200":
+          description: Glid Details for Weberp-DHL Flow
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Success"
+                
+        "200 ":
+          description: GLid Details for NSD-MERP Flow non native
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Success1"
+                
+        "200  ":
+          description: GLid Details for NSD-MERP Flow native
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Success2"
+                
+        "204":
+          description: No leads found.
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Success3"
+        
+        "204 ":
+          description: Invalid Request
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/InvalidRequest"
+                
+        "401":
+          description: Auth Token Expired
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/AuthExpired"
+        "402":
+          description: Invalid Employeeid
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/InvalidEmpid"
+  
+components:
+  schemas:
+    
+    Parent250:            
+      type: object
+      properties:
+        PARENT_ID:
+          type: string
+          example: "250"
+        PARENT_NAME:
+          type: string
+          example: "Enriched and Verified"
+        CHILD:
+          type: string
+          example: []
+    Parent251:            
+      type: object
+      properties:
+        PARENT_ID:
+          type: string
+          example: "251"
+        PARENT_NAME:
+          type: string
+          example: "Reschedule"
+        CHILD:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Child257'
+              - $ref: '#/components/schemas/Child258'
+              - $ref: '#/components/schemas/Child259'
+              - $ref: '#/components/schemas/Child260'
+    Parent252:            
+      type: object
+      properties:
+        PARENT_ID:
+          type: string
+          example: "252"
+        PARENT_NAME:
+          type: string
+          example: "Rejected"
+        CHILD:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Child263'
+              - $ref: '#/components/schemas/Child264'
+              - $ref: '#/components/schemas/Child267'
+              - $ref: '#/components/schemas/Child273'
+
+    Child257:
+      type: object
+      properties:
+        CHILDID:
+          type: string
+          example: "257"
+        CHILDNAME:
+          type: string
+          example: "Customer asked to Call Later"
+    Child258:
+      type: object
+      properties:
+        CHILDID:
+          type: string
+          example: "258"
+        CHILDNAME:
+          type: string
+          example: "Switch-Off / Not Reachable"
+    Child259:
+      type: object
+      properties:
+        CHILDID:
+          type: string
+          example: "259"
+        CHILDNAME:
+          type: string
+          example: "Customer Disconnected call"
+    Child260:
+      type: object
+      properties:
+        CHILDID:
+          type: string
+          example: "260"
+        CHILDNAME:
+          type: string
+          example: "No Answer"
+    Child263:
+      type: object
+      properties:
+        CHILDID:
+          type: string
+          example: "263"
+        CHILDNAME:
+          type: string
+          example: "Business Closed"
+    Child264:
+      type: object
+      properties:
+        CHILDID:
+          type: string
+          example: "264"
+        CHILDNAME:
+          type: string
+          example: "Wrong Contact Details"
+    Child267:
+      type: object
+      properties:
+        CHILDID:
+          type: string
+          example: "267"
+        CHILDNAME:
+          type: string
+          example: "Language Barrier"
+    Child273:
+      type: object
+      properties:
+        CHILDID:
+          type: string
+          example: "273"
+        CHILDNAME:
+          type: string
+          example: "Buyer / Not Interested in Selling"
+    
+    Success:
+      type: array
+      items:
+        type: object
+        properties:
+          status:
+            type: string
+            example: "200"
+          data:
+            type: object
+            properties:
+              glid:
+                type: integer
+                example: 95864410
+              modid:
+                type: string
+                example: ""
+              tbro_date:
+                type: string
+                example: ""
+              tbro_call_duration:
+                type: string
+                example: ""
+              tbro_comments:
+                type: string
+                example: ""
+              tbro_employee_name:
+                type: string
+                example: ""
+              tbro_setdatetime:
+                type: string
+                example: ""
+              undisposed_lead_message:
+                type: string
+                example: "You did not dispose this lead earlier. Please dispose this to proceed further"
+              approval_status:
+                type: string
+                example: "A"
+              modify_status:
+                type: string
+                example: "F"
+              fcp_flag:
+                type: integer
+                example: 1
+              contactperson:
+                type: string
+                example: "Pankajaggarwal "
+              ownername:
+                type: string
+                example: "Pankaj Aggarwal"
+              completeAddress:
+                type: string
+                example: "2-G-15,2-G-15,Sri Ganganagar,Ganganagar, , Sri Ganganagar-335001, Rajasthan,India"
+              locality:
+                type: string
+                example: ""
+              custypename:
+                type: string
+                example: "qgFCP with PNS"
+              catalogurl:
+                type: string
+                example: "https://www.indiamart.com/naresh-sons/"
+              addressrejectionflag:
+                type: integer
+                example: 2
+              addressrejectionmsg:
+                type: string
+                example: "Incomplete"
+              mktplaceurlstatus:
+                type: integer
+                example: 0
+              brochurestatus:
+                type: integer
+                example: 0
+              landline:
+                type: string
+                example: ""
+              website:
+                type: string
+                example: ""
+              photovideostatusflag:
+                type: string
+                example: ""
+              appinstallstatus:
+                type: string
+                example: "Not Installed"
+              email:
+                type: string
+                example: "pankaj73408@gmail.com"
+              suggested_site:
+                type: string
+                example: ""
+              sec_email:
+                type: string
+                example: ""
+              phn:
+                type: string
+                example: "9588260009"
+              sec_phn:
+                type: string
+                example: ""
+              emailstatus:
+                type: string
+                example: "Verified"
+              phnstatus:
+                type: string
+                example: "Verified"
+              secemailstatus:
+                type: string
+                example: "Not Verified"
+              secphnstatus:
+                type: string
+                example: "Not Verified"
+              gststatus:
+                type: string
+                example: "Verified"
+              cinstatus:
+                type: string
+                example: "Not Verified"
+              GST:
+                type: string
+                example: "08BPWPA0331N1ZO"
+              CIN:
+                type: string
+                example: ""
+              vc_status:
+                type: string
+                example: "No VC"
+              active_90days:
+                type: string
+                example: "0"
+              active_30days:
+                type: string
+                example: "0"
+              active_7days:
+                type: string
+                format: string
+                example: "0"
+              encglid:
+                type: string
+                format: string
+                example: "1qcMmJ3Rsl4="
+              stsid:
+                type: string
+                format: string
+                example: "38222239"
+              company:
+                type: string
+                format: string
+                example: "Naresh & Sons"
+              lastCall:
+                type: object
+                properties:
+                  empname:
+                    type: string
+                    format: string
+                    example: "Vijay Singh"
+                  disposition:
+                    type: string
+                    format: string
+                    example: "Non Prospective"
+                  subdisposition:
+                    type: string
+                    format: string
+                    example: "Hyper Local"
+                  enteredOn:
+                    type: string
+                    format: string
+                    example: "22-APR-23"
+              leadType:
+                type: string
+                format: string
+                example: "HSN-qgFCP-Product-Addition"
+              openingstatement:
+                type: string
+                format: string
+                example: ""
+              leadIntent:
+                type: integer
+                format: integer
+                example: 3
+              dispositions:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/Parent250'
+                    - $ref: '#/components/schemas/Parent251'
+                    - $ref: '#/components/schemas/Parent252'
+              callVerify:
+                type: integer
+                format: integer
+                example: 0
+              verifyLogId:
+                type: string
+                format: string
+                example: ""
+          message:
+            type: string
+            example: "Glid Details"
+          
+    Success1:
+      type: array
+      items:
+        type: object
+        properties:
+          COMPANY:
+            type: string
+            format: string
+            example: "Astrra Chemicals"
+          CITY:
+            type: string
+            format: string
+            example: "Chennai"
+          STATE:
+            type: string
+            format: string
+            example: "Tamil Nadu"
+          GLUSR_USR_LOCALITY:
+            type: string
+            format: string
+            example: "Thousand Lights"
+          PIN:
+            type: string
+            format: string
+            example: "600006"
+          STS_FK_GLUSR_ID:
+            type: string
+            format: string
+            example: "236"
+          STSID:
+            type: string
+            format: string
+            example: "2437"
+          STS_DSR_DATE:
+            type: string
+            format: string
+            example: null
+          FCP_TYPE:
+            type: string
+            format: string
+            example: "Others"
+
+          
+    Success2:
+      type: array
+      items:
+        type: object
+        properties:
+          status:
+            type: string
+            example: "200"
+          data:
+            type: array
+            items:
+              type: object
+              properties:
+                COMPANY:
+                  type: string
+                  example: "Astrra Chemicals"
+                CITY:
+                  type: string
+                  example: "Chennai"
+                STATE:
+                  type: string
+                  example: "Tamil Nadu"
+                GLUSR_USR_LOCALITY:
+                  type: string
+                  example: "Thousand Lights"
+                PIN:
+                  type: string
+                  example: "600006"
+                STS_FK_GLUSR_ID:
+                  type: string
+                  example: "236"
+                STSID:
+                  type: string
+                  example: "2437"
+                STS_DSR_DATE:
+                  type: string
+                  example: null
+                FCP_TYPE:
+                  type: string
+                  example: "Others"
+          message:
+            type: string
+            example: "Glid Details"
+
+    
+    Success3:
+      type: array
+      items:
+        type: object
+        properties: 
+          status: 
+            type: string
+            example: 204
+          data: 
+            type: string
+            example: []
+          message: 
+            type: string
+            example: No leads Found
+          
+    AuthExpired:
+      type: array
+      items:
+        type: object
+        properties:
+          status:
+            type: integer
+            format: integer
+            example: 401
+          message:
+            type: string
+            format: string
+            example: "Token Expired"
+          data:
+            type: object
+            properties:
+              message:
+                type: string
+                format: string
+                example: "Token Expired"
+    InvalidEmpid:
+      type: array
+      items:
+        type: object
+        properties:
+          status:
+            type: integer
+            format: integer
+            example: 402
+          message:
+            type: string
+            format: string
+            example: "You are not authorized to access this page."
+          data:
+            type: object
+            properties:
+              message:
+                type: string
+                format: string
+                example: "You are not authorized to access this page."
+    InvalidRequest:
+      type: array
+      items:
+        type: object
+        properties: 
+          status: 
+            type: string
+            example: 204
+          data: 
+            type: string
+            example: "[]"
+          message: 
+            type: string
+            example: Invalid request

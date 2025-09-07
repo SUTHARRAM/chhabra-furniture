@@ -1,0 +1,7 @@
+# Curl commands for nach API testing
+# Base URL: https://stg-merp.intermesh.net/
+
+curl -X GET "https://merp.intermesh.net/index.php/pns/NachDetails/getnachdetails?AK=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTQ2OTciLCJleHAiOjE3NTg1MjgwNTAsImlhdCI6MTc1ODQ0MTY1MCwiaXNzIjoiRU1QTE9ZRUUifQ.GdIm-wnuSsLNEccHQ13qxvJKPw8CS1fmmLj7RM9UFjw&empid=114697&glid=valid_value&modid=valid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/index.php/pns/NachDetails/getnachdetails?AK=invalid_token&empid=invalid_id&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/index.php/pns/NachDetails/getnachdetails?AK=invalid_token&empid=invalid_id&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/index.php/pns/NachDetails/getnachdetails?AK=invalid_token&empid=invalid_id&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"

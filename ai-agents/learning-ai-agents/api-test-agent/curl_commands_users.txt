@@ -1,0 +1,15 @@
+# Curl commands for users API testing
+# Base URL: https://merp.intermesh.net/api/v1
+
+curl -X GET "https://merp.intermesh.net/users" -H "Content-Type: application/json"
+curl -X POST "https://merp.intermesh.net/users" -H "Content-Type: application/json"
+curl -X POST "https://merp.intermesh.net/users" -H "Content-Type: application/json"
+curl -X POST "https://merp.intermesh.net/users" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/users/{userId}?userId=" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/users/{userId}?userId=" -H "Content-Type: application/json"
+curl -X PUT "https://merp.intermesh.net/users/{userId}?userId=" -H "Content-Type: application/json"
+curl -X PUT "https://merp.intermesh.net/users/{userId}?userId=" -H "Content-Type: application/json"
+curl -X DELETE "https://merp.intermesh.net/users/{userId}?userId=" -H "Content-Type: application/json"
+curl -X DELETE "https://merp.intermesh.net/users/{userId}?userId=" -H "Content-Type: application/json"
+curl -X POST "https://merp.intermesh.net/users/login" -H "Content-Type: application/json"
+curl -X POST "https://merp.intermesh.net/users/login" -H "Content-Type: application/json"

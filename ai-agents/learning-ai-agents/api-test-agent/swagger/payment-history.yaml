@@ -1,0 +1,231 @@
+openapi: 3.0.0
+
+info:
+  title: payment-history
+  version: 1.0.0
+  description: |
+    This service is used to fetch the payment history of a GlUserId for the last 6 months.
+    This service is being used by the teleM module in the sts_history screen.
+
+    **NOTE**
+    - All the request parameters are **case-sensitive**.
+    - If any input parameter is not mandatory, it should **not be passed** at all if no value is provided or no change is required.
+    - This API works on **GET** methods.
+    - The service supports only **HTTPS** requests.
+    - This is a Read Api
+
+servers:
+  - url: https://dev-merp.intermesh.net/
+  - url: https://stg-merp.intermesh.net/
+  - url: https://merp.intermesh.net/
+
+paths:
+  /api/csd/v1/payment-history:
+    get:
+      tags:
+        - API Details and Responses
+      summary: Get payment history for a GlUserId (last 6 months)
+      description: |
+        Fetch payment history for a GlUserId for the last 6 months. This endpoint is used by the teleM module on the sts_history screen.
+
+        **NOTE**
+        - All the request parameters are **case-sensitive**.
+        - If a parameter is optional, do not pass it at all if no value is available.
+        - Only the **GET** method is supported.
+        - This service supports only **HTTPS** requests.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: empid
+          required: true
+          description: Employee id
+          schema:
+            type: integer
+            format: int64
+            example: 106494
+        - in: query
+          name: screen_name
+          required: true
+          description: calling screen
+          schema:
+            type: string
+            example: l1erp
+        - in: query
+          name: glid
+          required: true
+          description: GlUserId
+          schema:
+            type: integer
+            format: int64
+            example: 130099680
+        - in: query
+          name: modid
+          required: true
+          description: modid (telem fixed)
+          schema:
+            type: string
+            example: telem
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SampleResponse'
+              examples:
+                Success:
+                  value:
+                    status: 200
+                    data:
+                      glid: "130099680"
+                      service_id: "354"
+                      Nach_Amount: "2950.00"
+                      payment_history:
+                        month0:
+                          - ar_recpt_id: "10774502"
+                            ar_recpt_date: "January 2024"
+                            ar_recpt_type: "13"
+                            ar_recpt_clear_date: "Jan 10, 2024 07:48 PM"
+                            ar_recpt_bounce_date: ""
+                            ar_recpt_bounce_reason: ""
+                            nach_status: "1"
+                        month1:
+                          - ar_recpt_id: "10654593"
+                            ar_recpt_date: "December 2023"
+                            ar_recpt_type: "13"
+                            ar_recpt_clear_date: "Dec 11, 2023 09:26 AM"
+                            ar_recpt_bounce_date: ""
+                            ar_recpt_bounce_reason: ""
+                            nach_status: "1"
+                        month2:
+                          - ar_recpt_id: "10545217"
+                            ar_recpt_date: "November 2023"
+                            ar_recpt_type: "13"
+                            ar_recpt_clear_date: "Nov 11, 2023 08:50 AM"
+                            ar_recpt_bounce_date: ""
+                            ar_recpt_bounce_reason: ""
+                            nach_status: "1"
+                        month3:
+                          - ar_recpt_id: "10430310"
+                            ar_recpt_date: "October 2023"
+                            ar_recpt_type: "13"
+                            ar_recpt_clear_date: "Oct 11, 2023 10:38 AM"
+                            ar_recpt_bounce_date: ""
+                            ar_recpt_bounce_reason: ""
+                            nach_status: "1"
+                        month4:
+                          - ar_recpt_id: "10295892"
+                            ar_recpt_date: "September 2023"
+                            ar_recpt_type: "13"
+                            ar_recpt_clear_date: "Sep 11, 2023 09:19 AM"
+                            ar_recpt_bounce_date: ""
+                            ar_recpt_bounce_reason: ""
+                            nach_status: "1"
+                        month5:
+                          - ar_recpt_id: "10163926"
+                            ar_recpt_date: "August 2023"
+                            ar_recpt_type: "13"
+                            ar_recpt_clear_date: "Aug 11, 2023 07:36 AM"
+                            ar_recpt_bounce_date: ""
+                            ar_recpt_bounce_reason: ""
+                            nach_status: "1"
+                        month6:
+                          - ar_recpt_id: "10039220"
+                            ar_recpt_date: "July 2023"
+                            ar_recpt_type: "13"
+                            ar_recpt_clear_date: "Jul 11, 2023 08:05 AM"
+                            ar_recpt_bounce_date: ""
+                            ar_recpt_bounce_reason: ""
+                            nach_status: "1"
+                    message: "Payment history data fetched successfully!!"
+        '400':
+          description: Missing Mandatory params or Invalid Params
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SampleResponse'
+              examples:
+                MissingMandatoryOrInvalid:
+                  value:
+                    status: 400
+                    data:
+                      glid: ""
+                      service_id: ""
+                      Nach_Amount: ""
+                      payment_history: null
+                    message: "Missing Mandatory params or Invalid Params!"
+        '401':
+          description: AK is missing / Expired / AK of other Emp
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SampleResponse'
+              examples:
+                WrongAK:
+                  value:
+                    status: 401
+                    data:
+                      glid: ""
+                      service_id: ""
+                      Nach_Amount: ""
+                      payment_history: null
+                    message: "Invalid AK!"
+                AKNotPassedInHeader:
+                  value:
+                    status: 401
+                    data: null
+                    message: "Authorization header missing"
+                    error: "Authorization header missing"
+                BearerMissing:
+                  value:
+                    status: 401
+                    data: null
+                    message: "Authorization header missing Bearer"
+                    error: "Authorization header missing Bearer"
+        '422':
+          description: No Payment-history Data found for Glid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SampleResponse'
+              examples:
+                NoData:
+                  value:
+                    status: 422
+                    data:
+                      glid: ""
+                      service_id: ""
+                      Nach_Amount: ""
+                      payment_history: null
+                    message: "record not found"
+        '500':
+          description: Failure / Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SampleResponse'
+              examples:
+                FailureCase:
+                  value:
+                    data: {}
+                    message: "Failure"
+                    status: 500
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    SampleResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+        data:
+          type: object
+        message:
+          type: string

@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  title: Bearer Token API Example
+  description: Example API that uses Bearer token authentication
+  version: 1.0.0
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production server
+
+paths:
+  /users/profile:
+    get:
+      summary: Get user profile
+      description: Retrieve the current user's profile information
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: include
+          in: query
+          required: false
+          description: Additional data to include
+          schema:
+            type: string
+            enum: [avatar, preferences, settings]
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 12345
+                  username:
+                    type: string
+                    example: "john_doe"
+                  email:
+                    type: string
+                    example: "john@example.com"
+                  status:
+                    type: string
+                    example: "200"
+                  data:
+                    type: object
+                    properties:
+                      profile:
+                        type: object
+                        properties:
+                          firstName:
+                            type: string
+                            example: "John"
+                          lastName:
+                            type: string
+                            example: "Doe"
+        '401':
+          description: Unauthorized - Invalid or missing token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "401"
+                  message:
+                    type: string
+                    example: "Invalid or expired token"
+        '403':
+          description: Forbidden - Token valid but insufficient permissions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "403"
+                  message:
+                    type: string
+                    example: "Insufficient permissions"
+
+  /users/settings:
+    put:
+      summary: Update user settings
+      description: Update user account settings
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                theme:
+                  type: string
+                  enum: [light, dark, auto]
+                notifications:
+                  type: boolean
+                language:
+                  type: string
+                  example: "en"
+      responses:
+        '200':
+          description: Settings updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  message:
+                    type: string
+                    example: "Settings updated successfully"
+                  data:
+                    type: object
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "401"
+                  message:
+                    type: string
+                    example: "Invalid or expired token"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "JWT token obtained from /auth/login endpoint"
+
+security:
+  - bearerAuth: []
