@@ -1,0 +1,56 @@
+
+================================================================================
+API TESTING SUMMARY REPORT
+================================================================================
+Generated on: 2025-09-21 13:53:01
+Total APIs Tested: 5
+
+
+📊 OVERALL SUMMARY
+========================================
+✅ Total Passed: 5 tests
+❌ Total Failed: 18 tests
+⚠️  Total Errors: 0 tests
+📈 Total Tests: 23 tests
+
+Success Rate: 21.7% (5/23)
+
+
+📋 API-SPECIFIC RESULTS
+========================================
+
+EMPD API
+--------------------
+Status: ⚠️  PARTIAL SUCCESS
+Passed: 2 | Failed: 3 | Errors: 0 | Total: 5
+
+EMPDETAILS API
+--------------------
+Status: ❌ ALL TESTS FAILED
+Passed: 0 | Failed: 4 | Errors: 0 | Total: 4
+
+EMPLOYEELIST API
+--------------------
+Status: ⚠️  PARTIAL SUCCESS
+Passed: 2 | Failed: 3 | Errors: 0 | Total: 5
+
+GLUSER API
+--------------------
+Status: ⚠️  PARTIAL SUCCESS
+Passed: 1 | Failed: 3 | Errors: 0 | Total: 4
+
+ORDERS API
+--------------------
+Status: ❌ ALL TESTS FAILED
+Passed: 0 | Failed: 5 | Errors: 0 | Total: 5
+
+💡 RECOMMENDATIONS
+========================================
+
+• 18 tests failed - Review API responses and expected status codes
+• Check if API endpoints are working correctly
+• Verify authentication tokens and parameters
+
+• Use curl commands in curl_commands_*.txt files for manual testing
+• Check individual result files in results/ directory for detailed information
+• Review technical details section for debugging information

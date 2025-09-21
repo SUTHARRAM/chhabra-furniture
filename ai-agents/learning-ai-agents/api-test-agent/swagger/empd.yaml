@@ -1,0 +1,268 @@
+openapi: 3.0.0
+info:
+  description: <br>
+    1. This service is a read service which is shows the Employee information like Name , mobile, email id
+  
+  version: 1.0.0
+  title: Employee details
+    
+servers:
+  - url: https://dev-merp.intermesh.net/
+    description: Dev Server
+  - url: https://stg-merp.intermesh.net/
+    description: Stage Server
+
+    
+paths:
+  /index.php/User/Apiemployeedetails:
+    get:
+      tags:
+        - API Details and Responses
+      description: This service is a read service which is used to shows the Employee information. <br>This service also provides C2C related details for a employee like vendor id, did, virtual contact number, vertical id, vertical name, phone number, mobile number, and enable inhouse c2c.
+      parameters: 
+      - in: query
+        name: empid  
+        required: true
+        description: Employee id
+        schema:  
+          type: string
+        example: 114697
+      - in: query
+        name: native  
+        required: false
+        description: For response format
+        schema:  
+          type: string
+        example: yes
+      - in: query
+        name: AK  
+        required: true
+        description: Authentication Token of empid
+        schema:  
+          type: string
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMTQ2OTciLCJleHAiOjE3NTg1MjgwNTAsImlhdCI6MTc1ODQ0MTY1MCwiaXNzIjoiRU1QTE9ZRUUifQ.GdIm-wnuSsLNEccHQ13qxvJKPw8CS1fmmLj7RM9UFjw
+      - in: query
+        name: modid  
+        required: false
+        description: module id
+        schema:  
+          type: string
+        example: WEBERP
+      - in: query
+        name: screen_name  
+        required: false
+        description: Screen name
+        schema:  
+          type: string
+        example: c2c admin
+      - in: query
+        name: flag  
+        required: false
+        description: Flag(1,2,3)
+        schema:  
+          type: string
+        example: 1
+      - in: query
+        name: flagtype  
+        required: false
+        description: flagtype
+        schema:  
+          type: string
+        example: 1
+      responses:
+        "200":
+          description: Success Response
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                    $ref: "#/components/schemas/Success1"
+              examples:
+                Employee Details:
+                   value: [
+                            {
+                                "status": "200",
+                                "data": [
+                                    {
+                                        "EMPLOYEENAME": "George S Rosario",
+                                        "EMAIL": "georgerosario.indiamart@gmail.com",
+                                        "FK_IIL_DESIGNATION_ID": "128",
+                                        "MOBILE": "8296160547",
+                                        "CAMPAIGN_DID": null,
+                                        "FK_IIL_VERTICAL_ID": "42"
+                                    }
+                                ],
+                                "message": "Employee Details"
+                            }
+                        ]
+                Employee C2C Details: 
+                  value: [
+                            {
+                                "status": "200",
+                                "data": [
+                                    {
+                                        "EMPLOYEENAME": "George S Rosario",
+                                        "VENDOR ID": "5",
+                                        "DID": null,
+                                        "VIRTUALCONTACT": null,
+                                        "VERTICAL ID": "42",
+                                        "PHONE": null,
+                                        "MOBILE": "8296160547",
+                                        "ENABLE_INHOUSE_C2C": "0",
+                                        "VERTICAL_NAME": "NSD Emerging Markets - Channel FSF"
+                                    }
+                                ],
+                                "message": "Employee Details"
+                            }
+                        ]
+                Employee Tree Details (flag == 3): 
+                  value: [
+                            {
+                                "status": "200",
+                                 "data": [
+            {
+                "employeeid": "41548",
+                "managerid": "1",
+                "node_level": "4",
+                "emp_working": "-1",
+                "is_pool": "N"
+            },
+            {
+                "employeeid": "41548",
+                "managerid": "17967",
+                "node_level": "1",
+                "emp_working": "-1",
+                "is_pool": "N"
+            },
+            {
+                "employeeid": "41548",
+                "managerid": "36688",
+                "node_level": "2",
+                "emp_working": "-1",
+                "is_pool": "N"
+            },
+            {
+                "employeeid": "41548",
+                "managerid": "41548",
+                "node_level": "0",
+                "emp_working": "-1",
+                "is_pool": "N"
+            },
+            {
+                "employeeid": "41548",
+                "managerid": "95819",
+                "node_level": "3",
+                "emp_working": "-1",
+                "is_pool": "N"
+            }
+        ],
+                                "message": "Employee Details"
+                            }
+                        ]
+                ManagerId Details (flag == 4):
+                   value: [
+                            {
+                                "status": "200",
+                                 "data": [
+            {
+                "MANAGERID": "1,36688,95819"
+            }
+        ],
+                                "message": "Employee Details"
+                            }
+                        ]
+                
+
+       
+        "401": 
+          description: When AK is not passed.
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        format: string
+                        example: "204"
+                      data:
+                          example: []
+                      message:
+                        type: string
+                        format: string
+                        example: "Token Expired"
+        "402": 
+          description: When apiempid is not passed.
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        format: string
+                        example: "204"
+                      data:
+                          example: []
+                      message:
+                        type: string
+                        format: string
+                        example: "You are not authorized to access this page."
+        
+components:
+  schemas:
+    Success1:
+      type: object
+      properties:
+        status:
+          type: string
+          format: string
+          example: "200"
+        data:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Value1'
+            
+        message:
+          type: string
+          format: string
+          example: "Employee Details"
+    Value1:
+      schemas:
+      type: object
+      properties:
+        EMPLOYEENAME:
+          type: string
+          format: string
+          example: "Rachita Mathur"
+        EMAIL:
+          type: string
+          format: string
+          example: "rachita.mathur@indiamart.com"
+        FK_IIL_DESIGNATION_ID:
+          type: string
+          format: string
+          example: "25"
+        MOBILE:
+          type: string
+          format: string
+          example: "8800948730"
+        CAMPAIGN_DID:
+          type: string
+          format: string
+          example: "918047247168"
+        FK_IIL_VERTICAL_ID:
+          type: string
+          format: string
+          example: "R35"
+        
+    
+          
+          
+   

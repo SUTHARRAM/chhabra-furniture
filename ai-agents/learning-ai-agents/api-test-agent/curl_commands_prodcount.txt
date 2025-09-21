@@ -1,0 +1,8 @@
+# Curl commands for prodcount API testing
+# Base URL: https://dev-merp.intermesh.net/
+
+curl -X GET "https://merp.intermesh.net/api/production/v1/productDetailsCounts?empid=114697&glid=valid_value&modid=valid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/api/production/v1/productDetailsCounts?empid=invalid_id&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/api/production/v1/productDetailsCounts?empid=invalid_id&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/api/production/v1/productDetailsCounts?empid=invalid_id&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/api/production/v1/productDetailsCounts?empid=invalid_id&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"

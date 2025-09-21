@@ -1,0 +1,195 @@
+openapi: 3.0.0
+info:
+  title: Employee List Service
+  version: 1.0.0
+  description: |
+    This service is a **read API** used to fetch the list of employees using an
+    **auto-suggest feature** based on the entered name string.  
+    - Used in **CSD and NSD MERP** for both **Android** and **iOS**.  
+    - Supports the **GET method**.  
+    - Works over **HTTP protocol**.  
+    - **Mandatory Params**: `empid`, `AK`, `keyword`.  
+    - **Case Sensitive Params**: `AK`.
+
+servers:
+  - url: https://stg-merp.intermesh.net/
+    description: Stage Server
+  - url: https://dev-merp.intermesh.net/
+    description: Dev Server
+
+paths:
+  /index.php/Employee/Employeelist/:
+    get:
+      tags:
+        - API details and Responses
+      parameters:
+        - in: query
+          name: empid  
+          required: true
+          description: Employee ID (numeric)
+          schema:  
+            type: integer
+            example: 108785
+        - in: query
+          name: AK  
+          required: true
+          description: Auth Token (case sensitive)
+          schema:  
+            type: string
+            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDg3ODUiLCJleHAiOjE3NTg1MjQ5NzAsImlhdCI6MTc1ODQzODU3MCwiaXNzIjoiRU1QTE9ZRUUifQ.pTaq920Kdna8AhwROS_ga6V1Fwj7zw8wgLH0Y0AlH_k
+        - in: query
+          name: keyword
+          required: true
+          description: Keyword for employee search   (case insenstive)
+          schema:  
+            type: string
+            example: "rachita"
+        - in: query
+          name: flag  
+          required: false
+          description: Optional flag parameter
+          schema:  
+            type: integer
+            example: 1
+
+      responses:
+        "200":
+          description: Successful response with employee list
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/Success1"
+              examples:
+                Example1:
+                  summary: Employee match found
+                  value:
+                    status: 200
+                    data:
+                      - email: "rachita.mathur@indiamart.com"
+                        name: "Rachita Mathur - 41548"
+                      - email: "shraddhanjali.yadav@indiamart.com"
+                        name: "Shraddhanjali Yadav - 94693"
+                    message: "Auto Suggest Employee list"
+                Example2:
+                  summary: No employee found
+                  value:
+                    status: 200
+                    data: []
+                    message: "No results found for given keyword"
+
+        "4xx":
+          description: Authentication or Authorization related errors
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/AuthExpired"
+                  - $ref: "#/components/schemas/InvalidEmpid"
+              examples:
+                AuthExpiredExample:
+                  summary: Token expired
+                  value:
+                    status: 401
+                    data: []
+                    message: "Token Expired"
+                InvalidEmpidExample:
+                  summary: Invalid Employee ID
+                  value:
+                    status: 402
+                    data: []
+                    message: "You are not authorized to access this page."
+
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerError"
+              examples:
+                DBFailure:
+                  summary: Internal Server Error
+                  value:
+                    status: 500
+                    data: []
+                    message: "Internal Server Error."
+   
+
+components:
+  schemas:
+    Success1:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        data:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/ExampleValue1'
+              - $ref: '#/components/schemas/ExampleValue2'
+        message:
+          type: string
+          example: "Auto Suggest Employee list"
+
+    ExampleValue1:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "rachita.mathur@indiamart.com"
+        name:
+          type: string
+          example: "Rachita Mathur - 41548"
+
+    ExampleValue2:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "shraddhanjali.yadav@indiamart.com"
+        name:
+          type: string
+          example: "Shraddhanjali Yadav - 94693"
+
+    AuthExpired:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 401
+        data:
+          type: array
+          items: {}
+          example: []
+        message:
+          type: string
+          example: "Token Expired"
+
+    InvalidEmpid:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 402
+        data:
+          type: array
+          items: {}
+          example: []
+        message:
+          type: string
+          example: "You are not authorized to access this page."
+
+    InternalServerError:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 500
+        data:
+          type: array
+          items: {}
+          example: []
+        message:
+          type: string
+          example: "Internal Server Error"

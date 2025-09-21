@@ -1,0 +1,8 @@
+# Curl commands for payment-history API testing
+# Base URL: https://dev-merp.intermesh.net/
+
+curl -X GET "https://merp.intermesh.net/api/csd/v1/payment-history?empid=114697&screen_name=valid_value&glid=valid_value&modid=valid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/api/csd/v1/payment-history?empid=invalid_id&screen_name=invalid_value&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/api/csd/v1/payment-history?empid=invalid_id&screen_name=invalid_value&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/api/csd/v1/payment-history?empid=invalid_id&screen_name=invalid_value&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"
+curl -X GET "https://merp.intermesh.net/api/csd/v1/payment-history?empid=invalid_id&screen_name=invalid_value&glid=invalid_value&modid=invalid_value" -H "Content-Type: application/json"
