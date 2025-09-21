@@ -1,4 +1,5 @@
 # Environment variables
+*/.testConfig.py
 .env
 
 # Python
