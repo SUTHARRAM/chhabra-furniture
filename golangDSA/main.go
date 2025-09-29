@@ -2,12 +2,16 @@ package main
 
 import (
 //	"dsa/queue"
-	"dsa/linkedlist"
+//	"dsa/linkedlist"
+	"dsa/tree"
 )
 
 
 func main() {
 //	queue.QueueImplementation()
 
-	linkedlist.LinkedListImplementation()
+//	linkedlist.LinkedListImplementation()
+
+	tree.Tree()
+
 }
