@@ -1,12 +1,14 @@
 package main 
 
 import (
-	"lld/creationalPatterns"
+	//"lld/creationalPatterns"
+	"lld/structuralPatterns"
 )
 
 func main() {
 	//creationalPatterns.SingleTon()
 	//creationalPatterns.Builder()
 	//creationalPatterns.Factory()
-	creationalPatterns.AbstraceFactory()
+	//creationalPatterns.AbstraceFactory()
+	structuralPatterns.Decorator()
 }
